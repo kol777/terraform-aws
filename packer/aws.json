@@ -17,9 +17,24 @@
   ],
   "provisioners": [
     {
+      "type": "file",
+      "source": "./Gluster.repo",
+      "destination": "/tmp/Gluster.repo"
+    },
+    {
       "type": "shell",
       "inline": [
-        "echo 'abracadabra'"
+        "sudo su -c 'cp /tmp/Gluster.repo /etc/yum.repos.d/'",
+        "sudo su -c 'echo \"assumeyes=1\" >> /etc/yum.conf'",
+        "sudo yum install glusterfs-server",
+        "sudo yum install samba",
+        "sudo systemctl start glusterd.service",
+        "sudo systemctl enable glusterd.service",
+        "sudo yum install firewalld",
+        "sudo systemctl start firewalld",
+        "sudo systemctl enable firewalld",
+        "sudo su -c 'firewall-cmd --zone=public --add-port=24007-24009/tcp --add-port=49152-49251/tcp --permanent'",
+        "sudo su -c 'firewall-cmd --reload'"
       ]
     }
   ]
