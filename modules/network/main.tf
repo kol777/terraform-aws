@@ -1,6 +1,5 @@
 resource "aws_vpc" "main" {
   cidr_block = "${var.vcn_cidr}"
-
 }
 
 resource "aws_subnet" "Public_Subnet1" {
